@@ -14,14 +14,24 @@ app.config.update(dict(
 ))
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
-@app.route('/')
-def index():
+@app.route('/story')
+def story():
     return render_template('form.html')
 
-@app.route('/list')
+@app.route('/')
+def index():
+    return redirect(url_for('list'))
+
+@app.route('/and/list')
 def list():
-    story = Story.select().order_by(Story.id.desc)
-    return render_template('list.html',story=story)
+    stories = Story.select().order_by(Story.id.asc())
+    return render_template('list.html',stories=stories)
+
+@app.route('/delete/<id>')
+def delete(id):
+    row = Story.get(Story.id == id)
+    row.delete_instance()
+    return redirect(url_for('list'))
 
 @app.route('/add', methods=['POST'])
 def add_stories():
