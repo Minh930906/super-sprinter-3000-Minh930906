@@ -2,37 +2,84 @@
 <html>
 
 <head>
-    <title>Sprinter 3000</title>
+    {% if user_story %}
+        <br><br><title>Sprinter 3000 - Edit Story</title>
+    {% else %}
+        <br><br><title>Sprinter 3000 - Add new Story</title>
+    {% endif %}
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width = device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+            <ul class="nav navbar-nav navbar-right">
+                <li> <a href="/story/0" >Add a new User Story</a> </li>
+                <li><a href="/" >Home</a></li></ul>
+    </div>
+ </nav>
+{% if user_story %}
+
+    <h1>User Story Manager - Edit Story</h1>
+    <form action="{{ url_for('update_story') }}" method=post class=update-story>
+        <dl>
+            <input type="hidden" name="id" value={{user_story.id}}>
+            <dt><label for="title">Story Title</label>:
+            <input type="text" size="50" name="storytitle" value={{ user_story.storytitle }}>
+            <dt><label for="story">User Story</label>:
+            <dd><textarea name="userstory" rows="5" cols="50">{{user_story.userstory}}</textarea>
+            <dt><label for="criteria">Acceptance Criteria</label>:
+            <dd><textarea name="criteria" rows="10" cols="50">{{user_story.criteria}}</textarea>
+            <dt><label for="value">Business Value</label>:
+            <dd><input type="range" name="businessvalue" id="businessvalueInputId" value="100" min="100" max="1500" step="100" oninput="businessvalueOutputId.value=businessvalueInputId.value">
+                <output name="businessvalueOutput" id="businessvalueOutputId">{{user_story.businessvalue}}</output>
+            <dt><label for="estimation">Estimation (h)</label>:
+            <dd><input type="range" width="50%" name="estimation" id="estimationInputId" value="0.5" min="0.5" max="40" step="0.5" oninput="estimationOutputId.value=estimationInputId.value">
+                <output name="estimationOutput" id="estimationOutputId">{{user_story.estimation}}</output>
+            <dt><label for="status">Status</label>
+                <select name="status">
+                <option value="Planning">Planning</option>
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Done">Done</option>
+            </select>
+            <dd><input type="submit" value="Update"></dd>
+        </dl>
+    </form>
+{% else %}
+    <h1>User Story Manager - Add new Story</h1>
     <form action="{{ url_for('add_stories') }}" method=post class=add-stories>
         <dl>
-            <dt>Story title:
-            <input type="text" size="50" name="storytitle">
-            <dt>User story:
+            <dt><label for="title">Story Title</label>:
+                <div class="input-group">
+                <span class="input-group-addon" id="storytitle">Title:</span>
+                <input type="text" class="form-control" placeholder="Story title" aria-describedby="storytitle">
+                </div>
+            <dt><label for="story">User Story</label>:
             <dd><textarea name="userstory" rows="5" cols="50"></textarea>
-            <dt>Accaptance criteria:
+            <dt><label for="criteria">Acceptance Criteria</label>:
             <dd><textarea name="criteria" rows="10" cols="50"></textarea>
-            <dt>Business value:
+            <dt><label for="value">Business Value</label>:
             <dd><input type="range" name="businessvalue" id="businessvalueInputId" value="100" min="100" max="1500" step="100" oninput="businessvalueOutputId.value=businessvalueInputId.value">
                 <output name="businessvalueOutput" id="businessvalueOutputId">100</output>
-            <dt>Estimation(h):
+            <dt><label for="estimation">Estimation (h)</label>:
             <dd><input type="range" name="estimation" id="estimationInputId" value="0.5" min="0.5" max="40" step="0.5" oninput="estimationOutputId.value=estimationInputId.value">
                 <output name="estimationOutput" id="estimationOutputId">0,5</output>
-            <dt>Status:
-            <dd><input list="progress" name="status"/></dd>
-            <datalist id="progress">
-                <option value="Planning">
-                <option value="To Do">
-                <option value="In Progress">
-                <option value="Review">
-                <option value="Done">
-            </datalist>
+            <dt><label for="status">Status</label>
+            <select name="status">
+                <option value="Planning">Planning</option>
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Review">Review</option>
+                <option value="Done">Done</option>
+            </select>
             <dd><input type="submit" value="Create"></dd>
         </dl>
     </form>
-
+{% endif %}
 </body>
 
 </html>

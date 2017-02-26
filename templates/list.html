@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Super Sprinter 3000 </title>
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width = device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-$END$
+
+<h3>User Story Manager</h3>
+
+<a href="/story/0">
+   <input type="button" value="Add a new User Story" />
+</a>
+
+
+<table class="table" id="myTable">
+    <tr>
+        <th>ID</th>
+        <th>Story Title</th>
+        <th>User Story</th>
+        <th>Acceptance Criteria</th>
+        <th>Business Value</th>
+        <th>Estimation</th>
+        <th>Status</th>
+    </tr>
+    {% for story in stories %}
+    <tr>
+        <td>{{ story.id }}</td>
+        <td>{{ story.storytitle }}</td>
+        <td>{{ story.userstory }}</td>
+        <td>{{ story.criteria }}</td>
+        <td>{{ story.businessvalue }}</td>
+        <td>{{ story.estimation }}</td>
+        <td>{{ story.status }}</td>
+        <td><a href="/story/{{ story.id }}">
+                <input type="button" value="Edit" />
+            </a>
+            <a href="/delete/{{ story.id }}" >
+                <input type="button" value="Delete" />
+            </a>
+        </td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+
+
 </body>
 </html>
